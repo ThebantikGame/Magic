@@ -41,7 +41,7 @@
 
         h1 {
             font-size: 2.2rem;
-            margin: 30px 0 20px;
+            margin: 20px 0 15px;
             text-shadow: 0 0 10px #8a2be2, 0 0 20px #4b0082;
             letter-spacing: 1px;
             background: linear-gradient(to right, #e0b0ff, #ff69b4, #00ffff);
@@ -56,7 +56,7 @@
             flex-wrap: wrap;
             justify-content: center;
             max-width: 600px;
-            margin-bottom: 25px;
+            margin: 15px 0;
         }
 
         .input-group {
@@ -95,7 +95,7 @@
         }
 
         button {
-            margin: 15px 0 25px;
+            margin: 10px 0 20px;
             padding: 12px 30px;
             font-size: 18px;
             font-weight: bold;
@@ -120,10 +120,21 @@
             transform: scale(0.98);
         }
 
+        .section-title {
+            margin: 25px 0 10px;
+            font-size: 1.4rem;
+            color: #d8bfd8;
+            text-shadow: 0 0 8px rgba(224, 176, 255, 0.7);
+        }
+
+        .table-container {
+            margin: 15px 0;
+        }
+
         table {
             border-collapse: separate;
             border-spacing: 0;
-            margin: 0 auto 30px;
+            margin: 0 auto 20px;
             background: rgba(10, 5, 20, 0.7);
             border: 2px solid #8a2be2;
             border-radius: 12px;
@@ -142,13 +153,32 @@
             background: rgba(30, 15, 50, 0.6);
             transition: all 0.3s ease;
             color: #e0b0ff;
+            opacity: 0;
+            transform: scale(0.8) rotateX(90deg);
         }
 
-        td:hover {
-            background: rgba(70, 30, 100, 0.8);
-            transform: translateY(-2px);
-            color: white;
-            box-shadow: inset 0 0 10px rgba(255, 105, 180, 0.5);
+        td.visible {
+            opacity: 1;
+            transform: scale(1) rotateX(0deg);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotateX(90deg);
+            }
+            70% {
+                transform: scale(1.05) rotateX(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateX(0deg);
+            }
+        }
+
+        #rawTable td {
+            color: #aaf0ff;
         }
 
         .results-container {
@@ -156,7 +186,7 @@
             gap: 40px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin: 20px 0;
         }
 
         .result-block {
@@ -191,24 +221,6 @@
             text-shadow: 0 0 5px rgba(224, 176, 255, 0.7);
         }
 
-        .animate-number {
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.8) rotate(-5deg);
-            }
-            70% {
-                transform: scale(1.05) rotate(2deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
-        }
-
         .hint {
             margin-top: 20px;
             font-size: 14px;
@@ -224,56 +236,49 @@
 
     <div class="input-section">
         <div class="input-group">
-            <div class="input-label">Месяц</div>
-            <input type="number" id="month" min="1" max="12" value="5">
+            <div class="input-label">День (B)</div>
+            <input type="number" id="day" min="1" max="31" value="11">
         </div>
         <div class="input-group">
-            <div class="input-label">День</div>
-            <input type="number" id="day" min="1" max="31" value="17">
+            <div class="input-label">Месяц (A)</div>
+            <input type="number" id="month" min="1" max="12" value="1">
         </div>
         <div class="input-group">
             <div class="input-label">Год (полный)</div>
-            <input type="number" id="year" value="2008">
+            <input type="number" id="year" value="2001">
         </div>
     </div>
 
     <button onclick="calculate()">✨ Бам бум бабах ✨</button>
 
-    <table id="magicTable">
-        <tr>
-            <td id="cell1A">A</td>
-            <td id="cell1B">B</td>
-            <td id="cell1C">C</td>
-            <td id="cell1Sum">A+B+C</td>
-        </tr>
-        <tr>
-            <td id="cell2A">C−2</td>
-            <td id="cell2B">D+2</td>
-            <td id="cell2C">A−2</td>
-            <td id="cell2Sum">B+2</td>
-        </tr>
-        <tr>
-            <td id="cell3A">D+1</td>
-            <td id="cell3B">C+1</td>
-            <td id="cell3C">B−1</td>
-            <td id="cell3Sum">A−1</td>
-        </tr>
-        <tr>
-            <td id="cell4A">B+1</td>
-            <td id="cell4B">A−3</td>
-            <td id="cell4C">D+3</td>
-            <td id="cell4Sum">C−1</td>
-        </tr>
-    </table>
+    <div class="section-title">✨ Магический Квадрат (все ячейки → сумма цифр)</div>
+    <div class="table-container">
+        <table id="magicTable">
+            <tr><td id="m1A"></td><td id="m1B"></td><td id="m1C"></td><td id="m1D"></td></tr>
+            <tr><td id="m2A"></td><td id="m2B"></td><td id="m2C"></td><td id="m2D"></td></tr>
+            <tr><td id="m3A"></td><td id="m3B"></td><td id="m3C"></td><td id="m3D"></td></tr>
+            <tr><td id="m4A"></td><td id="m4B"></td><td id="m4C"></td><td id="m4D"></td></tr>
+        </table>
+    </div>
+
+    <div class="section-title">🔍 Реальный Квадрат (только [1,4] → сумма цифр)</div>
+    <div class="table-container">
+        <table id="rawTable">
+            <tr><td id="r1A"></td><td id="r1B"></td><td id="r1C"></td><td id="r1D"></td></tr>
+            <tr><td id="r2A"></td><td id="r2B"></td><td id="r2C"></td><td id="r2D"></td></tr>
+            <tr><td id="r3A"></td><td id="r3B"></td><td id="r3C"></td><td id="r3D"></td></tr>
+            <tr><td id="r4A"></td><td id="r4B"></td><td id="r4C"></td><td id="r4D"></td></tr>
+        </table>
+    </div>
 
     <div class="results-container">
         <div class="result-block">
             <div class="result-box" id="sBox">S</div>
-            <div class="result-label" id="sLabel">1 строка равна S</div>
+            <div class="result-label" id="sLabel">Сумма 1-й строки</div>
         </div>
         <div class="result-block">
             <div class="result-box" id="xBox">X</div>
-            <div class="result-label" id="xLabel">Вся сумма магического квадрата равна X</div>
+            <div class="result-label" id="xLabel">Общая сумма</div>
         </div>
     </div>
 
@@ -299,63 +304,128 @@
         }
 
         function calculate() {
-            let month = parseInt(document.getElementById('month').value);
             let day = parseInt(document.getElementById('day').value);
+            let month = parseInt(document.getElementById('month').value);
             let year = parseInt(document.getElementById('year').value);
 
-            if (isNaN(month) || month < 1 || month > 12) month = 1;
             if (isNaN(day) || day < 1 || day > 31) day = 1;
+            if (isNaN(month) || month < 1 || month > 12) month = 1;
             if (isNaN(year)) year = 2000;
 
-            const C = year % 100;
-            const D = month + day + year;
+            // A = месяц, B = день, Z = полный год, C = последние 2 цифры года
+            const A = month;
+            const B = day;
+            const Z = year;
+            const C = Z % 100; // всегда две цифры: 2000 -> 00, 2001 -> 01
 
-            // Исходные значения — для расчёта S и X
-            const raw = [
-                [month, day, C, D],
-                [C - 2, D + 2, month - 2, day + 2],
-                [D + 1, C + 1, day - 1, month - 1],
-                [day + 1, month - 3, D + 3, C - 1]
+            // D_raw = A + B + Z
+            const D_raw = A + B + Z;
+            // D = сумма цифр D_raw
+            const D = digitSumWithSign(D_raw);
+
+            // === Строим базовую матрицу из A, B, C, D ===
+            const base = [
+                [B, A, C, D],              // строка 1: B, A, C, D
+                [C - 2, D + 2, B - 2, A + 2],
+                [D + 1, C + 1, A - 1, B - 1],
+                [B + 1, A - 3, D + 3, C - 1]
             ];
 
-            // Отображаемые значения — преобразуем ВСЕ 16 ячеек
-            const display = raw.map(row => row.map(val => digitSumWithSign(val)));
+            // Магическая таблица: все ячейки → сумма цифр
+            const magicDisplay = base.map(row => row.map(val => digitSumWithSign(val)));
 
-            const cellIds = [
-                ['cell1A', 'cell1B', 'cell1C', 'cell1Sum'],
-                ['cell2A', 'cell2B', 'cell2C', 'cell2Sum'],
-                ['cell3A', 'cell3B', 'cell3C', 'cell3Sum'],
-                ['cell4A', 'cell4B', 'cell4C', 'cell4Sum']
+            // Реальная таблица: все ячейки — исходные числа, кроме [0][3] — преобразуем её
+            const realDisplay = base.map(row => [...row]);
+            realDisplay[0][3] = D; // это уже сумма цифр, но для реальной таблицы — мы показываем D как есть
+
+            // === Анимация спавна ===
+            const allCells = [];
+            const magicIds = [
+                ['m1A', 'm1B', 'm1C', 'm1D'],
+                ['m2A', 'm2B', 'm2C', 'm2D'],
+                ['m3A', 'm3B', 'm3C', 'm3D'],
+                ['m4A', 'm4B', 'm4C', 'm4D']
             ];
 
+            const realIds = [
+                ['r1A', 'r1B', 'r1C', 'r1D'],
+                ['r2A', 'r2B', 'r2C', 'r2D'],
+                ['r3A', 'r3B', 'r3C', 'r3D'],
+                ['r4A', 'r4B', 'r4C', 'r4D']
+            ];
+
+            // Собираем все ячейки с их данными
             for (let i = 0; i < 4; i++) {
                 for (let j = 0; j < 4; j++) {
-                    const el = document.getElementById(cellIds[i][j]);
-                    el.textContent = display[i][j];
-                    el.classList.remove('animate-number');
-                    void el.offsetWidth;
-                    el.classList.add('animate-number');
+                    allCells.push({
+                        magicId: magicIds[i][j],
+                        realId: realIds[i][j],
+                        magicVal: magicDisplay[i][j],
+                        realVal: realDisplay[i][j],
+                        row: i,
+                        col: j
+                    });
                 }
             }
 
-            // S и X — по ИСХОДНЫМ числам, без преобразования цифр
-            const S = raw[0].reduce((a, b) => a + b, 0);
-            const X = raw.flat().reduce((a, b) => a + b, 0);
+            // Перемешиваем массив ячеек
+            for (let i = allCells.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [allCells[i], allCells[j]] = [allCells[j], allCells[i]];
+            }
 
-            const sBox = document.getElementById('sBox');
-            sBox.textContent = S;
-            sBox.classList.remove('animate-number');
-            void sBox.offsetWidth;
-            sBox.classList.add('animate-number');
+            // Очищаем таблицы
+            for (let cell of allCells) {
+                document.getElementById(cell.magicId).textContent = '';
+                document.getElementById(cell.realId).textContent = '';
+                document.getElementById(cell.magicId).classList.remove('visible');
+                document.getElementById(cell.realId).classList.remove('visible');
+            }
 
-            const xBox = document.getElementById('xBox');
-            xBox.textContent = X;
-            xBox.classList.remove('animate-number');
-            void xBox.offsetWidth;
-            xBox.classList.add('animate-number');
+            // Устанавливаем S и X в заглушку
+            document.getElementById('sBox').textContent = '?';
+            document.getElementById('xBox').textContent = '?';
 
-            document.getElementById('sLabel').textContent = `1 строка равна ${S}`;
-            document.getElementById('xLabel').textContent = `Вся сумма магического квадрата равна ${X}`;
+            // Спавним ячейки по одной
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index >= allCells.length) {
+                    clearInterval(interval);
+
+                    // После спавна — считаем S и X
+                    const S = base[0].reduce((a, b) => a + b, 0);
+                    const X = base.flat().reduce((a, b) => a + b, 0);
+
+                    const sBox = document.getElementById('sBox');
+                    sBox.textContent = S;
+                    sBox.classList.remove('animate-number');
+                    void sBox.offsetWidth;
+                    sBox.classList.add('animate-number');
+
+                    const xBox = document.getElementById('xBox');
+                    xBox.textContent = X;
+                    xBox.classList.remove('animate-number');
+                    void xBox.offsetWidth;
+                    xBox.classList.add('animate-number');
+
+                    document.getElementById('sLabel').textContent = `Сумма 1-й строки: ${S}`;
+                    document.getElementById('xLabel').textContent = `Общая сумма: ${X}`;
+
+                    return;
+                }
+
+                const cell = allCells[index];
+                const magicEl = document.getElementById(cell.magicId);
+                const realEl = document.getElementById(cell.realId);
+
+                magicEl.textContent = cell.magicVal;
+                realEl.textContent = cell.realVal;
+
+                magicEl.classList.add('visible');
+                realEl.classList.add('visible');
+
+                index++;
+            }, 150); // задержка между спавнами
         }
     </script>
 </body>
