@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔮 Магический Квадрат Судьбы</title>
+    <title>📿 Ритуал Освещения Бусины Дзи</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Tibetan&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
         }
 
         body {
-            background: linear-gradient(135deg, #0c1445, #1a2a6c, #2a0a4a);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: white;
+            background: linear-gradient(145deg, #1a0a2e, #2c0b4a, #1e1e3f);
+            font-family: 'Montserrat', 'Noto Serif Tibetan', sans-serif;
+            color: #f0e6ff;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -23,6 +24,7 @@
             position: relative;
         }
 
+        /* Фоновые звезды и символы Дзи */
         body::before {
             content: '';
             position: fixed;
@@ -31,449 +33,196 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.8), transparent),
-                radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.6), transparent),
-                radial-gradient(1.5px 1.5px at 50% 20%, rgba(100,200,255,0.7), transparent),
-                radial-gradient(1px 1px at 10% 80%, rgba(255,100,255,0.7), transparent);
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%238a2be2' fill-opacity='0.08' stroke='%236a5acd' stroke-opacity='0.1'%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3Ccircle cx='40' cy='25' r='1.5'/%3E%3Ccircle cx='20' cy='50' r='2.5'/%3E%3Ccircle cx='55' cy='45' r='1'/%3E%3C/g%3E%3C/svg%3E"),
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.1), transparent 50%);
             pointer-events: none;
             z-index: -2;
         }
 
+        .header {
+            text-align: center;
+            margin: 25px 0 15px;
+            max-width: 90%;
+        }
+
         h1 {
-            font-size: 2.2rem;
-            margin: 20px 0 15px;
-            text-shadow: 0 0 10px #8a2be2, 0 0 20px #4b0082;
-            letter-spacing: 1px;
+            font-size: 2.1rem;
+            margin: 0 0 10px;
+            text-shadow: 0 0 12px rgba(138, 43, 226, 0.8);
+            letter-spacing: 1.5px;
             background: linear-gradient(to right, #e0b0ff, #ff69b4, #00ffff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-align: center; /* Центрируем заголовок */
+            font-weight: 700;
         }
 
-        .input-section {
+        .subtitle {
+            font-size: 1.1rem;
+            color: #d4c1ec;
+            max-width: 600px;
+            line-height: 1.5;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Блок с изображением бусины */
+        .dzi-preview {
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
+            border-radius: 50%;
+            background: rgba(30, 10, 60, 0.7);
+            border: 3px solid #8a2be2;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
             display: flex;
-            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dzi-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .dzi-preview.loaded img {
+            opacity: 1;
+        }
+
+        .dzi-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-align: center;
+            margin: 15px 0 10px;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        .dzi-desc {
+            max-width: 90%;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #e0d6ff;
+            text-align: center;
+            margin: 0 auto 20px;
+            padding: 0 15px;
+        }
+
+        /* Символы элементов — вместо таблиц */
+        .elements-section {
+            display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 600px;
-            margin: 15px 0;
+            gap: 25px;
+            margin: 25px 0;
+            max-width: 90%;
         }
 
-        .input-group {
+        .element-card {
+            width: 130px;
+            height: 130px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            background: rgba(25, 10, 50, 0.65);
+            border: 2px solid #6a5acd;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .input-label {
-            font-size: 14px;
-            color: #d8bfd8;
-            text-shadow: 0 0 5px rgba(224, 176, 255, 0.7);
-            text-align: center;
-        }
-
-        input[type="number"] {
-            width: 90px;
-            padding: 12px;
-            text-align: center;
-            border: 2px solid #8a2be2;
-            background: rgba(30, 10, 50, 0.6);
-            color: white;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-        }
-
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #ff69b4;
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
-            background: rgba(40, 15, 60, 0.8);
+        .element-card:hover {
             transform: scale(1.05);
+            border-color: #ff69b4;
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
         }
 
-        button {
-            margin: 10px 0 20px;
-            padding: 12px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #8a2be2, #4b0082, #00ffff);
+        .element-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .element-card:hover::before {
+            opacity: 1;
+        }
+
+        .element-icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .element-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #d8bfd8;
+            text-align: center;
+        }
+
+        /* Кнопка ритуала */
+        .ritual-btn {
+            margin: 20px 0;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #8a2be2, #4b0082, #006666);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(138, 43, 226, 0.7);
-            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(138, 43, 226, 0.6);
+            transition: all 0.4s ease;
+            letter-spacing: 1px;
             position: relative;
             overflow: hidden;
-            letter-spacing: 1px;
         }
 
-        button:hover {
-            transform: scale(1.05) rotate(1deg);
-            box-shadow: 0 6px 25px rgba(255, 105, 180, 0.9);
+        .ritual-btn:hover {
+            transform: scale(1.07);
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.7);
         }
 
-        button:active {
+        .ritual-btn:active {
             transform: scale(0.98);
         }
 
-        .tables-container {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-            width: 100%;
-            max-width: 1000px;
-            margin: 20px 0;
+        /* Мандала-анимация (вместо таблиц) */
+        .mandala {
+            width: 220px;
+            height: 220px;
+            margin: 25px auto;
+            position: relative;
         }
 
-        .table-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+        .mandala-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            animation: rotate 20s linear infinite;
         }
 
-        .table-title {
-            font-size: 1.2rem;
-            color: #d8bfd8;
-            text-shadow: 0 0 8px rgba(224, 176, 255, 0.7);
-            text-align: center; /* Центрируем заголовки таблиц */
+        .mandala-ring:nth-child(1) {
+            width: 100%; height: 100%;
+            border-color: rgba(138, 43, 226, 0.4);
+            animation-duration: 30s;
         }
-
-        table {
-            border-collapse: separate;
-            border-spacing: 0;
-            background: rgba(10, 5, 20, 0.7);
-            border: 2px solid #8a2be2;
-            border-radius: 12px;
-            box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
-            overflow: hidden;
-        }
-
-        td {
-            border: 1px solid rgba(138, 43, 226, 0.6);
-            padding: 12px;
-            width: 80px;
-            height: 50px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 18px;
-            background: rgba(30, 15, 50, 0.6);
-            transition: all 0.3s ease;
-            color: #e0b0ff;
-            opacity: 0;
-            transform: scale(0.8) rotateX(90deg);
-        }
-
-        td.visible {
-            opacity: 1;
-            transform: scale(1) rotateX(0deg);
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.8) rotateX(90deg);
-            }
-            70% {
-                transform: scale(1.05) rotateX(-10deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotateX(0deg);
-            }
-        }
-
-        #rawTable td {
-            color: #aaf0ff;
-        }
-
-        .results-container {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .result-block {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .result-box {
-            width: 80px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-            background: rgba(40, 10, 60, 0.8);
-            border: 2px solid #ff69b4;
-            border-radius: 10px;
-            color: #ff69b4;
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
-            transition: all 0.4s ease;
-        }
-
-        .result-label {
-            font-size: 15px;
-            color: #d8bfd8;
-            text-align: center;
-            max-width: 180px;
-            line-height: 1.4;
-            text-shadow: 0 0 5px rgba(224, 176, 255, 0.7);
-        }
-
-        .hint {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #b19cd9;
-            max-width: 500px;
-            line-height: 1.5;
-            text-align: center;
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .tables-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .table-wrapper {
-                width: 100%;
-                max-width: 350px;
-            }
-
-            table {
-                width: 100%;
-                max-width: 350px;
-            }
-
-            td {
-                width: 60px;
-                font-size: 16px;
-                padding: 8px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-                margin: 15px 0 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>🔮 Магический Квадрат Судьбы</h1>
-
-    <div class="input-section">
-        <div class="input-group">
-            <div class="input-label">День</div>
-            <input type="number" id="day" min="1" max="31" value="11">
-        </div>
-        <div class="input-group">
-            <div class="input-label">Месяц</div>
-            <input type="number" id="month" min="1" max="12" value="1">
-        </div>
-        <div class="input-group">
-            <div class="input-label">Год</div>
-            <input type="number" id="year" value="2001">
-        </div>
-    </div>
-
-    <button onclick="calculate()">✨ Бам бум бабах ✨</button>
-
-    <div class="tables-container">
-        <!-- Реальный Квадрат (слева) -->
-        <div class="table-wrapper">
-            <div class="table-title">🔍 Реальный Квадрат</div>
-            <table id="rawTable">
-                <tr><td id="r1A"></td><td id="r1B"></td><td id="r1C"></td><td id="r1D"></td></tr>
-                <tr><td id="r2A"></td><td id="r2B"></td><td id="r2C"></td><td id="r2D"></td></tr>
-                <tr><td id="r3A"></td><td id="r3B"></td><td id="r3C"></td><td id="r3D"></td></tr>
-                <tr><td id="r4A"></td><td id="r4B"></td><td id="r4C"></td><td id="r4D"></td></tr>
-            </table>
-        </div>
-
-        <!-- Магический Квадрат (справа) -->
-        <div class="table-wrapper">
-            <div class="table-title">✨ Магический Квадрат</div>
-            <table id="magicTable">
-                <tr><td id="m1A"></td><td id="m1B"></td><td id="m1C"></td><td id="m1D"></td></tr>
-                <tr><td id="m2A"></td><td id="m2B"></td><td id="m2C"></td><td id="m2D"></td></tr>
-                <tr><td id="m3A"></td><td id="m3B"></td><td id="m3C"></td><td id="m3D"></td></tr>
-                <tr><td id="m4A"></td><td id="m4B"></td><td id="m4C"></td><td id="m4D"></td></tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="results-container">
-        <div class="result-block">
-            <div class="result-box" id="sBox">S</div>
-            <div class="result-label" id="sLabel">Сумма 1-й строки</div>
-        </div>
-        <div class="result-block">
-            <div class="result-box" id="xBox">X</div>
-            <div class="result-label" id="xLabel">Общая сумма</div>
-        </div>
-    </div>
-
-    <div class="hint">
-        Введите дату рождения → нажмите "Бам бум бабах" → и узнайте числа своей судьбы!
-    </div>
-
-    <script>
-        function digitSumWithSign(n) {
-            if (n === 0) return 0;
-            const isNegative = n < 0;
-            const s = String(Math.abs(n));
-            let sum = 0;
-            for (let i = 0; i < s.length; i++) {
-                const digit = parseInt(s[i], 10);
-                if (i === 0 && isNegative) {
-                    sum -= digit;
-                } else {
-                    sum += digit;
-                }
-            }
-            return sum;
-        }
-
-        function calculate() {
-            let day = parseInt(document.getElementById('day').value);
-            let month = parseInt(document.getElementById('month').value);
-            let year = parseInt(document.getElementById('year').value);
-
-            if (isNaN(day) || day < 1 || day > 31) day = 1;
-            if (isNaN(month) || month < 1 || month > 12) month = 1;
-            if (isNaN(year)) year = 2000;
-
-            // A = месяц, B = день, Z = полный год, C = последние 2 цифры года
-            const A = month;
-            const B = day;
-            const Z = year;
-            const C = Z % 100; // всегда две цифры: 2000 -> 00, 2001 -> 01
-
-            // D_raw = A + B + Z
-            const D_raw = A + B + Z;
-            // D = сумма цифр D_raw
-            const D = digitSumWithSign(D_raw);
-
-            // === Строим базовую матрицу из A, B, C, D ===
-            const base = [
-                [B, A, C, D],              // строка 1: B, A, C, D
-                [C - 2, D + 2, B - 2, A + 2],
-                [D + 1, C + 1, A - 1, B - 1],
-                [B + 1, A - 3, D + 3, C - 1]
-            ];
-
-            // Магическая таблица: все ячейки → сумма цифр
-            const magicDisplay = base.map(row => row.map(val => digitSumWithSign(val)));
-
-            // Реальная таблица: все ячейки — исходные числа, кроме [0][3] — преобразуем её
-            const realDisplay = base.map(row => [...row]);
-            realDisplay[0][3] = D; // это уже сумма цифр, но для реальной таблицы — мы показываем D как есть
-
-            // === Анимация спавна ===
-            const allCells = [];
-            const magicIds = [
-                ['m1A', 'm1B', 'm1C', 'm1D'],
-                ['m2A', 'm2B', 'm2C', 'm2D'],
-                ['m3A', 'm3B', 'm3C', 'm3D'],
-                ['m4A', 'm4B', 'm4C', 'm4D']
-            ];
-
-            const realIds = [
-                ['r1A', 'r1B', 'r1C', 'r1D'],
-                ['r2A', 'r2B', 'r2C', 'r2D'],
-                ['r3A', 'r3B', 'r3C', 'r3D'],
-                ['r4A', 'r4B', 'r4C', 'r4D']
-            ];
-
-            // Собираем все ячейки с их данными
-            for (let i = 0; i < 4; i++) {
-                for (let j = 0; j < 4; j++) {
-                    allCells.push({
-                        magicId: magicIds[i][j],
-                        realId: realIds[i][j],
-                        magicVal: magicDisplay[i][j],
-                        realVal: realDisplay[i][j],
-                        row: i,
-                        col: j
-                    });
-                }
-            }
-
-            // Перемешиваем массив ячеек
-            for (let i = allCells.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [allCells[i], allCells[j]] = [allCells[j], allCells[i]];
-            }
-
-            // Очищаем таблицы
-            for (let cell of allCells) {
-                document.getElementById(cell.magicId).textContent = '';
-                document.getElementById(cell.realId).textContent = '';
-                document.getElementById(cell.magicId).classList.remove('visible');
-                document.getElementById(cell.realId).classList.remove('visible');
-            }
-
-            // Устанавливаем S и X в заглушку
-            document.getElementById('sBox').textContent = '?';
-            document.getElementById('xBox').textContent = '?';
-
-            // Спавним ячейки по одной
-            let index = 0;
-            const interval = setInterval(() => {
-                if (index >= allCells.length) {
-                    clearInterval(interval);
-
-                    // После спавна — считаем S и X
-                    const S = base[0].reduce((a, b) => a + b, 0);
-                    const X = base.flat().reduce((a, b) => a + b, 0);
-
-                    const sBox = document.getElementById('sBox');
-                    sBox.textContent = S;
-                    sBox.classList.remove('animate-number');
-                    void sBox.offsetWidth;
-                    sBox.classList.add('animate-number');
-
-                    const xBox = document.getElementById('xBox');
-                    xBox.textContent = X;
-                    xBox.classList.remove('animate-number');
-                    void xBox.offsetWidth;
-                    xBox.classList.add('animate-number');
-
-                    document.getElementById('sLabel').textContent = `Сумма 1-й строки: ${S}`;
-                    document.getElementById('xLabel').textContent = `Общая сумма: ${X}`;
-
-                    return;
-                }
-
-                const cell = allCells[index];
-                const magicEl = document.getElementById(cell.magicId);
-                const realEl = document.getElementById(cell.realId);
-
-                magicEl.textContent = cell.magicVal;
-                realEl.textContent = cell.realVal;
-
-                magicEl.classList.add('visible');
-                realEl.classList.add('visible');
-
-                index++;
-            }, 150); // задержка между спавнами
-        }
-    </script>
-</body>
-</html>
+        .mandala-ring:nth-child(2) {
+            width: 80%; height: 80%;
+            
