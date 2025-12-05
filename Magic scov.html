@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Магический Квадрат Архимага ✨</title>
+    <title>🔮 Магический Квадрат Судьбы</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background: linear-gradient(135deg, #0c1445, #1a2a6c, #2a0a4a);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
+            color: white;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -19,7 +23,7 @@
             position: relative;
         }
 
-        /* Звёзды на фоне */
+        /* Звёздное небо */
         body::before {
             content: '';
             position: fixed;
@@ -27,354 +31,323 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 50%),
-                        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 50%);
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1.5px 1.5px at 50% 20%, rgba(100,200,255,0.7), transparent),
+                radial-gradient(1px 1px at 10% 80%, rgba(255,100,255,0.7), transparent);
             pointer-events: none;
-            z-index: -1;
+            z-index: -2;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin: 30px 0 10px;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-            letter-spacing: 2px;
-            animation: glow 2s ease-in-out infinite alternate;
+            font-size: 2.2rem;
+            margin: 30px 0 20px;
+            text-shadow: 0 0 10px #8a2be2, 0 0 20px #4b0082;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #e0b0ff, #ff69b4, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; }
-            to { text-shadow: 0 0 20px #00ffaa, 0 0 40px #00ffaa; }
-        }
-
-        .inputs {
+        .input-section {
             display: flex;
-            gap: 15px;
+            gap: 20px;
+            flex-wrap: wrap;
             justify-content: center;
-            margin: 15px 0;
+            max-width: 600px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .input-label {
+            font-size: 14px;
+            color: #d8bfd8;
+            text-shadow: 0 0 5px rgba(224, 176, 255, 0.7);
         }
 
         input[type="number"] {
-            width: 80px;
-            padding: 10px;
+            width: 90px;
+            padding: 12px;
             text-align: center;
-            border: 2px solid #00ffff;
-            background: rgba(0, 255, 255, 0.1);
-            color: #fff;
-            border-radius: 8px;
+            border: 2px solid #8a2be2;
+            background: rgba(30, 10, 50, 0.6);
+            color: white;
+            border-radius: 12px;
             font-weight: bold;
+            font-size: 16px;
             transition: all 0.3s ease;
-            box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
         }
 
         input[type="number"]:focus {
             outline: none;
-            border-color: #00ffaa;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+            border-color: #ff69b4;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+            background: rgba(40, 15, 60, 0.8);
             transform: scale(1.05);
         }
 
         button {
-            margin: 20px auto;
-            padding: 12px 24px;
+            margin: 15px 0 25px;
+            padding: 12px 30px;
             font-size: 18px;
             font-weight: bold;
-            background: linear-gradient(45deg, #00ffaa, #00ffff);
-            color: #000;
+            background: linear-gradient(45deg, #8a2be2, #4b0082, #00ffff);
+            color: white;
             border: none;
-            border-radius: 30px;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 4px 20px rgba(138, 43, 226, 0.7);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            letter-spacing: 1px;
         }
 
         button:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.7);
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 6px 25px rgba(255, 105, 180, 0.9);
         }
 
         button:active {
-            transform: scale(0.98) rotate(-2deg);
+            transform: scale(0.98);
         }
 
-        button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.5s;
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0 auto 30px;
+            background: rgba(10, 5, 20, 0.7);
+            border: 2px solid #8a2be2;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
+            overflow: hidden;
         }
 
-        button:hover::after {
-            left: 100%;
+        td {
+            border: 1px solid rgba(138, 43, 226, 0.6);
+            padding: 12px;
+            width: 80px;
+            height: 50px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            background: rgba(30, 15, 50, 0.6);
+            transition: all 0.3s ease;
+            color: #e0b0ff;
         }
 
-        .main-container {
+        td:hover {
+            background: rgba(70, 30, 100, 0.8);
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: inset 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        /* Результаты S и X */
+        .results-container {
             display: flex;
+            gap: 40px;
             justify-content: center;
-            align-items: flex-start;
-            gap: 30px;
-            margin-top: 10px;
             flex-wrap: wrap;
+            margin-top: 10px;
         }
 
-        .value-block {
+        .result-block {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            min-width: 120px;
         }
 
-        .value-box {
-            width: 100px;
+        .result-box {
+            width: 80px;
             height: 50px;
-            border: 2px solid #00ffaa;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
             font-weight: bold;
-            background: rgba(0, 255, 255, 0.1);
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .value-box::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-            z-index: -1;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        .value-label {
-            font-size: 14px;
-            color: #00ffaa;
-            max-width: 180px;
-            text-align: center;
-            line-height: 1.4;
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-            transition: all 0.3s ease;
-        }
-
-        table {
-            border-collapse: collapse;
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid #00ffaa;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            background: rgba(40, 10, 60, 0.8);
+            border: 2px solid #ff69b4;
             border-radius: 10px;
-            overflow: hidden;
+            color: #ff69b4;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+            transition: all 0.4s ease;
         }
 
-        td {
-            border: 1px solid #00ffaa;
-            padding: 12px;
-            width: 80px;
-            height: 50px;
-            font-weight: bold;
+        .result-label {
+            font-size: 15px;
+            color: #d8bfd8;
             text-align: center;
-            color: #fff;
-            background: rgba(0, 255, 255, 0.05);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        td:hover {
-            background: rgba(0, 255, 255, 0.15);
-            transform: scale(1.05);
-            z-index: 1;
-        }
-
-        td::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        td:hover::after {
-            opacity: 1;
+            max-width: 180px;
+            line-height: 1.4;
+            text-shadow: 0 0 5px rgba(224, 176, 255, 0.7);
         }
 
         /* Анимация появления чисел */
-        .magic-number {
-            animation: fadeInUp 0.5s ease-out;
+        .animate-number {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes fadeInUp {
-            from {
+        @keyframes popIn {
+            0% {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: scale(0.8) rotate(-5deg);
             }
-            to {
+            70% {
+                transform: scale(1.05) rotate(2deg);
+            }
+            100% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) rotate(0deg);
             }
         }
 
-        /* Подсказка */
+        /* Инструкция */
         .hint {
             margin-top: 20px;
             font-size: 14px;
-            color: #aaa;
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+            color: #b19cd9;
+            max-width: 500px;
+            line-height: 1.5;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>✨ Магический Квадрат Архимага ✨</h1>
-    
-    <div class="inputs">
-        <input type="number" id="a" placeholder="A" value="1">
-        <input type="number" id="b" placeholder="B" value="2">
-        <input type="number" id="c" placeholder="C" value="3">
-    </div>
+    <h1>🔮 Магический Квадрат Судьбы</h1>
 
-    <div class="main-container">
-        <!-- Левый блок: S -->
-        <div class="value-block">
-            <div class="value-box" id="leftResult">S</div>
-            <div class="value-label" id="labelS">1 строка равна S</div>
+    <div class="input-section">
+        <div class="input-group">
+            <div class="input-label">Месяц</div>
+            <input type="number" id="month" min="1" max="12" value="5">
         </div>
-
-        <!-- Таблица -->
-        <table id="magicTable">
-            <tr>
-                <td id="cell1A">A</td>
-                <td id="cell1B">B</td>
-                <td id="cell1C">C</td>
-                <td id="cell1Sum">A+B+C</td>
-            </tr>
-            <tr>
-                <td id="cell2A">C−2</td>
-                <td id="cell2B">D+2</td>
-                <td id="cell2C">A−2</td>
-                <td id="cell2Sum">B+2</td>
-            </tr>
-            <tr>
-                <td id="cell3A">D+1</td>
-                <td id="cell3B">C+1</td>
-                <td id="cell3C">B−1</td>
-                <td id="cell3Sum">A−1</td>
-            </tr>
-            <tr>
-                <td id="cell4A">B+1</td>
-                <td id="cell4B">A−3</td>
-                <td id="cell4C">D+3</td>
-                <td id="cell4Sum">C−1</td>
-            </tr>
-        </table>
-
-        <!-- Правый блок: X -->
-        <div class="value-block">
-            <div class="value-box" id="rightResult">X</div>
-            <div class="value-label" id="labelX">Вся сумма магического квадрата равна X</div>
+        <div class="input-group">
+            <div class="input-label">День</div>
+            <input type="number" id="day" min="1" max="31" value="17">
+        </div>
+        <div class="input-group">
+            <div class="input-label">Год (полный)</div>
+            <input type="number" id="year" value="2008">
         </div>
     </div>
 
-    <button onclick="calculate()">🔮 Бам бум бабах 🔮</button>
+    <button onclick="calculate()">✨ Бам бум бабах ✨</button>
 
-    <div class="hint">Введите A, B, C → нажмите кнопку → и пусть магия свершится!</div>
+    <table id="magicTable">
+        <tr>
+            <td id="cell1A">A</td>
+            <td id="cell1B">B</td>
+            <td id="cell1C">C</td>
+            <td id="cell1Sum">A+B+C</td>
+        </tr>
+        <tr>
+            <td id="cell2A">C−2</td>
+            <td id="cell2B">D+2</td>
+            <td id="cell2C">A−2</td>
+            <td id="cell2Sum">B+2</td>
+        </tr>
+        <tr>
+            <td id="cell3A">D+1</td>
+            <td id="cell3B">C+1</td>
+            <td id="cell3C">B−1</td>
+            <td id="cell3Sum">A−1</td>
+        </tr>
+        <tr>
+            <td id="cell4A">B+1</td>
+            <td id="cell4B">A−3</td>
+            <td id="cell4C">D+3</td>
+            <td id="cell4Sum">C−1</td>
+        </tr>
+    </table>
+
+    <div class="results-container">
+        <div class="result-block">
+            <div class="result-box" id="sBox">S</div>
+            <div class="result-label" id="sLabel">1 строка равна S</div>
+        </div>
+        <div class="result-block">
+            <div class="result-box" id="xBox">X</div>
+            <div class="result-label" id="xLabel">Вся сумма магического квадрата равна X</div>
+        </div>
+    </div>
+
+    <div class="hint">
+        Введите дату рождения → нажмите "Бам бум бабах" → и узнайте числа своей судьбы!
+    </div>
 
     <script>
         function calculate() {
-            const A = parseInt(document.getElementById('a').value) || 0;
-            const B = parseInt(document.getElementById('b').value) || 0;
-            const C = parseInt(document.getElementById('c').value) || 0;
-            const D = A + B + C;
+            let month = parseInt(document.getElementById('month').value);
+            let day = parseInt(document.getElementById('day').value);
+            let year = parseInt(document.getElementById('year').value);
 
-            // Вычисляем все ячейки
-            const c1A = A;
-            const c1B = B;
-            const c1C = C;
-            const c1Sum = D;
+            // Валидация без alert — просто подсвечиваем, но пропускаем
+            if (isNaN(month) || month < 1 || month > 12) month = 1;
+            if (isNaN(day) || day < 1 || day > 31) day = 1;
+            if (isNaN(year)) year = 2000;
 
-            const c2A = C - 2;
-            const c2B = D + 2;
-            const c2C = A - 2;
-            const c2Sum = B + 2;
+            let C = year % 100;
+            let D = month + day + year;
 
-            const c3A = D + 1;
-            const c3B = C + 1;
-            const c3C = B - 1;
-            const c3Sum = A - 1;
+            const cells = [
+                // Первая строка
+                [month, day, C, D],
+                // Вторая
+                [C - 2, D + 2, month - 2, day + 2],
+                // Третья
+                [D + 1, C + 1, day - 1, month - 1],
+                // Четвёртая
+                [day + 1, month - 3, D + 3, C - 1]
+            ];
 
-            const c4A = B + 1;
-            const c4B = A - 3;
-            const c4C = D + 3;
-            const c4Sum = C - 1;
+            // Обновляем таблицу с анимацией
+            const cellIds = [
+                ['cell1A', 'cell1B', 'cell1C', 'cell1Sum'],
+                ['cell2A', 'cell2B', 'cell2C', 'cell2Sum'],
+                ['cell3A', 'cell3B', 'cell3C', 'cell3Sum'],
+                ['cell4A', 'cell4B', 'cell4C', 'cell4Sum']
+            ];
 
-            // Заполняем таблицу с анимацией
-            document.getElementById('cell1A').textContent = c1A;
-            document.getElementById('cell1B').textContent = c1B;
-            document.getElementById('cell1C').textContent = c1C;
-            document.getElementById('cell1Sum').textContent = c1Sum;
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    const el = document.getElementById(cellIds[i][j]);
+                    el.textContent = cells[i][j];
+                    el.classList.remove('animate-number');
+                    // Принудительно перерисовать
+                    void el.offsetWidth;
+                    el.classList.add('animate-number');
+                }
+            }
 
-            document.getElementById('cell2A').textContent = c2A;
-            document.getElementById('cell2B').textContent = c2B;
-            document.getElementById('cell2C').textContent = c2C;
-            document.getElementById('cell2Sum').textContent = c2Sum;
+            // Суммы
+            const sumRow1 = cells[0].reduce((a, b) => a + b, 0);
+            const totalSum = cells.flat().reduce((a, b) => a + b, 0);
 
-            document.getElementById('cell3A').textContent = c3A;
-            document.getElementById('cell3B').textContent = c3B;
-            document.getElementById('cell3C').textContent = c3C;
-            document.getElementById('cell3Sum').textContent = c3Sum;
+            // Результаты
+            const sBox = document.getElementById('sBox');
+            sBox.textContent = sumRow1;
+            sBox.classList.remove('animate-number');
+            void sBox.offsetWidth;
+            sBox.classList.add('animate-number');
 
-            document.getElementById('cell4A').textContent = c4A;
-            document.getElementById('cell4B').textContent = c4B;
-            document.getElementById('cell4C').textContent = c4C;
-            document.getElementById('cell4Sum').textContent = c4Sum;
+            const xBox = document.getElementById('xBox');
+            xBox.textContent = totalSum;
+            xBox.classList.remove('animate-number');
+            void xBox.offsetWidth;
+            xBox.classList.add('animate-number');
 
-            // Сумма первой строки (4 числа)
-            const sumRow1 = c1A + c1B + c1C + c1Sum;
-
-            // Общая сумма (все 16 чисел)
-            const total = [
-                c1A, c1B, c1C, c1Sum,
-                c2A, c2B, c2C, c2Sum,
-                c3A, c3B, c3C, c3Sum,
-                c4A, c4B, c4C, c4Sum
-            ].reduce((a, b) => a + b, 0);
-
-            // Обновляем S
-            const leftBox = document.getElementById('leftResult');
-            leftBox.textContent = sumRow1;
-            leftBox.classList.add('magic-number');
-            setTimeout(() => leftBox.classList.remove('magic-number'), 600);
-
-            document.getElementById('labelS').textContent = `1 строка равна ${sumRow1}`;
-
-            // Обновляем X
-            const rightBox = document.getElementById('rightResult');
-            rightBox.textContent = total;
-            rightBox.classList.add('magic-number');
-            setTimeout(() => rightBox.classList.remove('magic-number'), 600);
-
-            document.getElementById('labelX').textContent = `Вся сумма магического квадрата равна ${total}`;
+            document.getElementById('sLabel').textContent = `1 строка равна ${sumRow1}`;
+            document.getElementById('xLabel').textContent = `Вся сумма магического квадрата равна ${totalSum}`;
         }
     </script>
 </body>
