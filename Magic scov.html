@@ -120,21 +120,32 @@
             transform: scale(0.98);
         }
 
-        .section-title {
-            margin: 25px 0 10px;
-            font-size: 1.4rem;
-            color: #d8bfd8;
-            text-shadow: 0 0 8px rgba(224, 176, 255, 0.7);
+        .tables-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px 0;
         }
 
-        .table-container {
-            margin: 15px 0;
+        .table-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-title {
+            font-size: 1.2rem;
+            color: #d8bfd8;
+            text-shadow: 0 0 8px rgba(224, 176, 255, 0.7);
         }
 
         table {
             border-collapse: separate;
             border-spacing: 0;
-            margin: 0 auto 20px;
             background: rgba(10, 5, 20, 0.7);
             border: 2px solid #8a2be2;
             border-radius: 12px;
@@ -229,6 +240,30 @@
             line-height: 1.5;
             text-align: center;
         }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .tables-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .table-wrapper {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            table {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            td {
+                width: 60px;
+                font-size: 16px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -251,24 +286,28 @@
 
     <button onclick="calculate()">✨ Бам бум бабах ✨</button>
 
-    <div class="section-title">✨ Магический Квадрат (все ячейки → сумма цифр)</div>
-    <div class="table-container">
-        <table id="magicTable">
-            <tr><td id="m1A"></td><td id="m1B"></td><td id="m1C"></td><td id="m1D"></td></tr>
-            <tr><td id="m2A"></td><td id="m2B"></td><td id="m2C"></td><td id="m2D"></td></tr>
-            <tr><td id="m3A"></td><td id="m3B"></td><td id="m3C"></td><td id="m3D"></td></tr>
-            <tr><td id="m4A"></td><td id="m4B"></td><td id="m4C"></td><td id="m4D"></td></tr>
-        </table>
-    </div>
+    <div class="tables-container">
+        <!-- Магический Квадрат -->
+        <div class="table-wrapper">
+            <div class="table-title">✨ Магический Квадрат</div>
+            <table id="magicTable">
+                <tr><td id="m1A"></td><td id="m1B"></td><td id="m1C"></td><td id="m1D"></td></tr>
+                <tr><td id="m2A"></td><td id="m2B"></td><td id="m2C"></td><td id="m2D"></td></tr>
+                <tr><td id="m3A"></td><td id="m3B"></td><td id="m3C"></td><td id="m3D"></td></tr>
+                <tr><td id="m4A"></td><td id="m4B"></td><td id="m4C"></td><td id="m4D"></td></tr>
+            </table>
+        </div>
 
-    <div class="section-title">🔍 Реальный Квадрат (только [1,4] → сумма цифр)</div>
-    <div class="table-container">
-        <table id="rawTable">
-            <tr><td id="r1A"></td><td id="r1B"></td><td id="r1C"></td><td id="r1D"></td></tr>
-            <tr><td id="r2A"></td><td id="r2B"></td><td id="r2C"></td><td id="r2D"></td></tr>
-            <tr><td id="r3A"></td><td id="r3B"></td><td id="r3C"></td><td id="r3D"></td></tr>
-            <tr><td id="r4A"></td><td id="r4B"></td><td id="r4C"></td><td id="r4D"></td></tr>
-        </table>
+        <!-- Реальный Квадрат -->
+        <div class="table-wrapper">
+            <div class="table-title">🔍 Реальный Квадрат</div>
+            <table id="rawTable">
+                <tr><td id="r1A"></td><td id="r1B"></td><td id="r1C"></td><td id="r1D"></td></tr>
+                <tr><td id="r2A"></td><td id="r2B"></td><td id="r2C"></td><td id="r2D"></td></tr>
+                <tr><td id="r3A"></td><td id="r3B"></td><td id="r3C"></td><td id="r3D"></td></tr>
+                <tr><td id="r4A"></td><td id="r4B"></td><td id="r4C"></td><td id="r4D"></td></tr>
+            </table>
+        </div>
     </div>
 
     <div class="results-container">
@@ -430,4 +469,3 @@
     </script>
 </body>
 </html>
-
