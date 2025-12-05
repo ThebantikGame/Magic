@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* Звёздное небо */
         body::before {
             content: '';
             position: fixed;
@@ -152,7 +151,6 @@
             box-shadow: inset 0 0 10px rgba(255, 105, 180, 0.5);
         }
 
-        /* Результаты S и X */
         .results-container {
             display: flex;
             gap: 40px;
@@ -193,7 +191,6 @@
             text-shadow: 0 0 5px rgba(224, 176, 255, 0.7);
         }
 
-        /* Анимация появления чисел */
         .animate-number {
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -212,7 +209,6 @@
             }
         }
 
-        /* Инструкция */
         .hint {
             margin-top: 20px;
             font-size: 14px;
@@ -286,31 +282,45 @@
     </div>
 
     <script>
+        function digitSumWithSign(n) {
+            if (n === 0) return 0;
+            const isNegative = n < 0;
+            const s = String(Math.abs(n));
+            let sum = 0;
+            for (let i = 0; i < s.length; i++) {
+                const digit = parseInt(s[i], 10);
+                if (i === 0 && isNegative) {
+                    sum -= digit;
+                } else {
+                    sum += digit;
+                }
+            }
+            return sum;
+        }
+
         function calculate() {
             let month = parseInt(document.getElementById('month').value);
             let day = parseInt(document.getElementById('day').value);
             let year = parseInt(document.getElementById('year').value);
 
-            // Валидация без alert — просто подсвечиваем, но пропускаем
             if (isNaN(month) || month < 1 || month > 12) month = 1;
             if (isNaN(day) || day < 1 || day > 31) day = 1;
             if (isNaN(year)) year = 2000;
 
-            let C = year % 100;
-            let D = month + day + year;
+            const C = year % 100;
+            const D = month + day + year;
 
-            const cells = [
-                // Первая строка
+            // Исходные значения — для расчёта S и X
+            const raw = [
                 [month, day, C, D],
-                // Вторая
                 [C - 2, D + 2, month - 2, day + 2],
-                // Третья
                 [D + 1, C + 1, day - 1, month - 1],
-                // Четвёртая
                 [day + 1, month - 3, D + 3, C - 1]
             ];
 
-            // Обновляем таблицу с анимацией
+            // Отображаемые значения — преобразуем ВСЕ 16 ячеек
+            const display = raw.map(row => row.map(val => digitSumWithSign(val)));
+
             const cellIds = [
                 ['cell1A', 'cell1B', 'cell1C', 'cell1Sum'],
                 ['cell2A', 'cell2B', 'cell2C', 'cell2Sum'],
@@ -321,33 +331,31 @@
             for (let i = 0; i < 4; i++) {
                 for (let j = 0; j < 4; j++) {
                     const el = document.getElementById(cellIds[i][j]);
-                    el.textContent = cells[i][j];
+                    el.textContent = display[i][j];
                     el.classList.remove('animate-number');
-                    // Принудительно перерисовать
                     void el.offsetWidth;
                     el.classList.add('animate-number');
                 }
             }
 
-            // Суммы
-            const sumRow1 = cells[0].reduce((a, b) => a + b, 0);
-            const totalSum = cells.flat().reduce((a, b) => a + b, 0);
+            // S и X — по ИСХОДНЫМ числам, без преобразования цифр
+            const S = raw[0].reduce((a, b) => a + b, 0);
+            const X = raw.flat().reduce((a, b) => a + b, 0);
 
-            // Результаты
             const sBox = document.getElementById('sBox');
-            sBox.textContent = sumRow1;
+            sBox.textContent = S;
             sBox.classList.remove('animate-number');
             void sBox.offsetWidth;
             sBox.classList.add('animate-number');
 
             const xBox = document.getElementById('xBox');
-            xBox.textContent = totalSum;
+            xBox.textContent = X;
             xBox.classList.remove('animate-number');
             void xBox.offsetWidth;
             xBox.classList.add('animate-number');
 
-            document.getElementById('sLabel').textContent = `1 строка равна ${sumRow1}`;
-            document.getElementById('xLabel').textContent = `Вся сумма магического квадрата равна ${totalSum}`;
+            document.getElementById('sLabel').textContent = `1 строка равна ${S}`;
+            document.getElementById('xLabel').textContent = `Вся сумма магического квадрата равна ${X}`;
         }
     </script>
 </body>
